@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/cds-amal/addressparser.svg?branch=master)](https://travis-ci.org/cds-amal/addressparser)
+[![Build Status](https://travis-ci.org/cds-amal/addressparser.svg?branch=development)](https://travis-ci.org/cds-amal/addressparser)
 
 # NYC Five Boroughs Address parser
 
