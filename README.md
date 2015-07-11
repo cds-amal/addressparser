@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/cds-amal/addressparser.svg?branch=master)](https://travis-ci.org/cds-amal/addressparser)
+
 # NYC Five Boroughs Address parser
 
 The goal of this project is to be able to identify, parse and geo-encode
