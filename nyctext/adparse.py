@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 Usage:
-    adparse --file=<infile> [--trace]
+    adparse --file=<infile> [--trace] [--bulk]
     adparse [--trace] [--geo] <text>
 
 Options:
     -h --help       Show this screen.
     --version       Show version.
     --file=<infile> Input file.
+    --bulk          Treat whole file as bulk input (1 line)
     --trace         Print trace statement
     --geo           Return Geolocation attributes [default: False]
 """
@@ -58,6 +59,21 @@ def do_file(fn, g, trace=False, geo=False):
         % (parsed, failed, total)
 
 
+def do_file_bulk(fn, g, trace=False, geo=False):
+    ads = []
+    line = codecs.open(fn, encoding='utf-8').read()
+    line = line.encode('ascii', 'ignore').strip()
+
+    if geo:
+        ads = parse_with_geo(line, g, trace)
+    else:
+        ads = parse(line, trace)
+
+    print 'Summary: %03d discovered' % len(ads)
+    for i, ad in zip(range(1, len(ads)+1), ads):
+        print '%03d:\t%s' % (i, ad)
+
+
 if __name__ == '__main__':
     # https://urllib3.readthedocs.org/en/latest/security.html#pyopenssl
     import urllib3.contrib.pyopenssl
@@ -72,8 +88,13 @@ if __name__ == '__main__':
 
     ads = []
     if args['--file']:
-        ads = do_file(args['--file'], g,
-                      trace=args['--trace'], geo=args['--geo'])
+        if args['--bulk']:
+            do_file_bulk(args['--file'], g,
+                         trace=args['--trace'], geo=args['--geo'])
+        else:
+            ads = do_file(args['--file'], g,
+                          trace=args['--trace'], geo=args['--geo'])
+
     else:
         do_adhoc(args['<text>'], g,
                  trace=args['--trace'], geo=args['--geo'])
