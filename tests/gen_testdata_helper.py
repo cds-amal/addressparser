@@ -28,7 +28,6 @@ class Address:
         return dict(address=self.address, source=self.source)
 
     def __str__(self):
-        # return '{ "address": "%s",\n "source": "%s"\n}' % (self.address, self.source)
         return json.dumps(self.asDict(), indent=1)
 
 
@@ -40,27 +39,28 @@ Multicultural High School: 999 Jamaica Avenue Brooklyn, NY
 The Urban Assembly School for Global Commerce: 2005 Madison Avenue New York, NY
 '''.split('\n')[:-1]
 
+
 def lines():
 
-    files = ['data/ACRIS_-_Personal_Property_Parties.txt',
+    files = [
+             'data/ACRIS_-_Personal_Property_Parties.txt',
              'data/DOHMH_New_York_City_Restaurant_Inspection_Results.txt',
              'data/Lower_Manhattan_Retailers.txt',
              'data/Mapped_In_NY_Companies.txt',
-             'data/highschools.txt',
              ]
-
 
     for fn in files:
         count = 5000
-        with codecs.open(fn, encoding='latin1') as dataset:
+        with codecs.open(fn, encoding='utf8') as dataset:
             for line in dataset:
-                line = line.strip()
+                line = line.encode('ascii', 'replace').strip()
                 if line == '':
                     continue
                 count -= 1
                 if count < 1:
                     break
                 yield line
+
 
 def processAll(g):
     nUnparsed, nParsed = 0, 0
@@ -97,7 +97,7 @@ def processAll(g):
 
 if __name__ == '__main__':
     fn = 'data/Lower_Manhattan_Retailers.txt'
-    fn =  'data/Mapped_In_NY_Companies.txt'
+    fn = 'data/Mapped_In_NY_Companies.txt'
     # import ipdb; ipdb.set_trace()
     appid = environ['DOITT_CROL_APP_ID']
     appkey = environ['DOITT_CROL_APP_KEY']

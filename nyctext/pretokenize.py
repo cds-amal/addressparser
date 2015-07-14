@@ -62,6 +62,7 @@ def filter_street_abbreviations(text):
     _avenue_abbreviations = re.compile('\s+(ave?\.?)[\s,]', re.I)
     _boulevard_abbreviations = re.compile('\s+(blvd?\.?)[\s,]', re.I)
     _circle_abbreviations = re.compile('\s+(cir\.?)[\s,]', re.I)
+    _concourse_abbreviations = re.compile('\s+(conc\.?)[\s,]', re.I)
     _drive_abbreviations = re.compile('\s+(dr\.?)[\s,]', re.I)
     _expressway_abbreviations = re.compile('\s+(expy\.?)[\s,]', re.I)
     _highway_abbreviations = re.compile('\s+(hwy\.?)[\s,]', re.I)
@@ -74,10 +75,10 @@ def filter_street_abbreviations(text):
     _square_abbreviations = re.compile('\s+(sq\.?)[\s,]', re.I)
     _street_abbreviations = re.compile('\s+(str?\.?)[\s,]', re.I)
 
-
     text = _avenue_abbreviations.sub(' Avenue ', text)
     text = _boulevard_abbreviations.sub(' Boulevard ', text)
     text = _circle_abbreviations.sub(' Circle ', text)
+    text = _concourse_abbreviations.sub(' Concourse ', text)
     text = _drive_abbreviations.sub(' Drive ', text)
     text = _expressway_abbreviations.sub(' Expressway ', text)
     text = _highway_abbreviations.sub(' Highway ', text)
