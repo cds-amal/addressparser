@@ -164,13 +164,7 @@ def pos_tag(text, verbose=False):
     return tagged
 
 
-def do_chunk(text, verbose=False):
-
-    tagged = pos_tag(text, verbose)
-    if verbose:
-        print tagged
-
-    # import ipdb;  ipdb.set_trace()
+def check_missing_street(tagged):
     # infer Street if missing in manhattan
     # addresses
     anchors = [(v, t) for v, t in tagged if t == 'CITY' and v == 'Manhattan']
@@ -185,11 +179,46 @@ def do_chunk(text, verbose=False):
             i -= 1
             tag = tagged[i][1]
             if tag == 'LU':
-                return tagged
+                break
             elif tag == 'CD':
                 # insert street
                 tagged.insert(i+1, (u'Street', u'LU'))
-                return tagged
+                break
+    return tagged
+
+
+def check_saint(tagged):
+    # infer Saint of Street based on relative position
+    ret = []
+    end = len(tagged)
+    for i in range(0, end-2):
+        j = i + 2
+        val1, tag1 = tagged[i]
+        val2, tag2 = tagged[j]
+        if tag1 == 'LU' and tag1 == tag2 and val1.lower() == 'street':
+            ret.append(('Saint', 'NNP'))
+        else:
+            ret.append((val1, tag1))
+
+    ret = ret + tagged[-2:]
+    return ret
+
+
+def do_chunk(text, verbose=False):
+
+    tagged = pos_tag(text, verbose)
+
+    if verbose:
+        print 'Initial POS tag:\n\t%s' % tagged
+
+    tagged = check_missing_street(tagged)
+    if verbose:
+        print 'Infer missing street in Manhattan:\n\t%s' % tagged
+
+    tagged = check_saint(tagged)
+    if verbose:
+        print 'Saint or Street:\n\t%s' % tagged
+
     return tagged
 
 

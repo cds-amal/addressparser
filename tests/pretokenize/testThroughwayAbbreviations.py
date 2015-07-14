@@ -22,7 +22,8 @@ class ThroughwayAbbreviations(ParseExpectations):
             "ln": "Lane",
             "pk": "Park",
             "pkw": "Parkway",  # only 3 character key
-            "pl": "Plaza",
+            "pl": "Place",
+            "plz": "Plaza",
             "rd": "Road",
             "sq": "Square",
             "st": "Street",
@@ -37,6 +38,8 @@ class ThroughwayAbbreviations(ParseExpectations):
             expansion = lookup[ab[:2]]
             if ab.startswith('pkw'):
                 expansion = lookup['pkw']
+            elif ab.startswith('plz'):
+                expansion = lookup['plz']
 
             source.append(tmp1 % (count, ab))
             expected.append(exp % (count, expansion))
