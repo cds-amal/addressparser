@@ -45,8 +45,14 @@ This project uses the [pytest](http://pytest.org/latest/) framework to drive cod
 # run all tests
 py.test -v
 
+# mark a test a wip (work in progress), an arbitrary name
+@pytest.mark.wip
+
 # run tests decorated as wip
 py.test -m wip
+
+# decorate a test to be skipped
+@pytest.mark.skipif("True")
 
 # test an ad-hoc address from the commandline
 python nyctext/adparse.py "Johnson Doe: 1802  OCEAN PARKWAY  BKLYN, NY"

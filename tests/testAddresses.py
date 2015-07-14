@@ -176,11 +176,10 @@ class Address(unittest.TestCase):
         got = parser.parse(text)[0]
         self.assertEqual(got, expected)
 
-    @pytest.mark.skipif("True")
     def testSaintNotStreet(self):
         #This is unimplemented
         '701 St. Anns should resolve to Saint Anns instead of Street Anns'
-        expected = ['701 St. Anns Avenue Bronx, NY']
+        expected = ['701 Saint Anns Avenue Bronx, NY']
 
         for text in expected:
             print text
